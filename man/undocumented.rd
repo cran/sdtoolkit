@@ -2,7 +2,6 @@
 \alias{undocumented}
 \alias{beval}
 \alias{boxconverter}
-\alias{boxformat}
 \alias{colptplot}
 \alias{contourmkr}
 \alias{csvboxes}
@@ -11,7 +10,7 @@
 \alias{filterpts}
 %\alias{find.box}
 \alias{find.traj}
-\alias{gnuwarranty}
+\alias{boxformat}
 \alias{in.box}
 \alias{in.box.seq}
 \alias{lvout}
@@ -33,7 +32,6 @@
 \alias{pvallister}
 \alias{ranker}
 \alias{resampstats}
-\alias{sdwarranty}
 \alias{traj.info}
 \alias{traj.stats}
 \alias{trajplot}

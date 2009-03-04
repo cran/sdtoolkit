@@ -93,7 +93,8 @@ The overall box sequence object returns three attributes as well.  The list \cod
 
 The attribute \code{olaps} contains a matrix that holds several pieces of information.  The diagonals display the absolute coverage of box i (in position matrix[i,i]).  The lower triangle displays the the overlap in total interesting points between boxes i and j.  The upper triangle displays the total points in common.  All are expressed as a fraction of total points in the dataset.
 
-Lastly, the attribute \code{data} contains the data used to generate the boxes, augmented by columns full of 0's and 1's.  The first augmented column is named 'in.seq' and gives a 1 for any point that falls in any box in the box set, and the remaining augmented columns are titled 'in.BX', where 'X' is the box number in the box sequence.  To access this data frame, use \code{mynewdata <- attr(myboxes, "data")}.}
+Lastly, the attribute \code{data} contains the data used to generate the boxes.  This is somewhat wasteful of memory, but ensures reproducibility, and also facilitates easy recalculation of statistics and scatterplots.  
+}
 
 \author{Benjamin P. Bryant, \email{bryant@prgs.edu}}
 

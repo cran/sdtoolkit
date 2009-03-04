@@ -11,8 +11,8 @@ This package is designed to provide a means for easily integrating multiple algo
 \tabular{ll}{
 Package: \tab sdtoolkit\cr
 Type: \tab Package\cr
-Version: \tab 2.3\cr
-Date: \tab 2009-07-05\cr
+Version: \tab 2.22\cr
+Date: \tab 2009-03-04\cr
 License: \tab GPL3\cr
 Code Copyright: \tab Evolving Logic, Inc.\cr
 Documentation Copyright: \tab The RAND Corporation\cr
