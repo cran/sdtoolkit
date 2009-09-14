@@ -11,8 +11,8 @@ This package is designed to provide a means for easily integrating multiple algo
 \tabular{ll}{
 Package: \tab sdtoolkit\cr
 Type: \tab Package\cr
-Version: \tab 2.22\cr
-Date: \tab 2009-03-04\cr
+Version: \tab 2.31\cr
+Date: \tab 2009-09-14\cr
 License: \tab GPL3\cr
 Code Copyright: \tab Evolving Logic, Inc.\cr
 Documentation Copyright: \tab The RAND Corporation\cr
@@ -31,10 +31,12 @@ Maintainer: The same \email{bryant@prgs.edu}
 
 Note of Acknowledgment:  The fundamental functions used in the operation of PRIM (specifically, peeling and pasting to form a trajectory of induced boxes) were initially taken from Duong's \pkg{prim} package.  Several pieces of code follow very closely the original functions provided by Duong, however because most functions used required small to large modifications to suit the specific needs of our scenario discovery task, it was easier to integrate these into \pkg{sdtoolkit} rather than build a package dependency on \pkg{prim}.  The internal functions \code{peel.one} and \code{paste.one} were taken almost as is, and the primary workhorse function \code{find.traj} was derived heavily from Duong's \code{find.box}.
 
-The primary funding for the development of this package came from Evolving Logic and the RAND Corporation.  Evolving Logic provided funds for the majority of the customized algorithm implementation, and RAND funds covered the majority of the documentation, as well as research that led to the additional algorithm diagnostics included in this package.
+The funding for the development of this package came from Evolving Logic, RAND, and a National Science Foundation grant (SES-0345925) to the RAND Corporation. Evolving Logic provided funds for the majority of the customized algorithm implementation, the RAND Pardee Center for Longer Range Global Policy and the Future Human Condition supported the documentation of the package, and the National Science Foundation supported the research that led to the development of the scenario discovery methods employed in this package. 
 }
 
 \references{
+Bryant, B.P. and R.J. Lempert.  (2009).  \dQuote{Thinking Inside the Box: A Participatory, Computer-Assisted Approach to Scenario Discovery}. Technological Forecasting and Social Change (forthcoming).
+
 Lempert, R.J., B.P. Bryant and S.C. Bankes. (2008). \dQuote{Comparing Algorithms for Scenario Discovery.} \emph{RAND Working Paper Series}.  http://www.rand.org/pub/working\_papers/2008/RAND\_WR557.pdf
 
 Friedman, J.H., N.I. Fisher. (1999). \dQuote{Bump hunting in high-dimensional data.} \emph{Statistics and Computing} 9, 123-143.
@@ -45,10 +47,7 @@ Lempert, R.J., D.G. Groves, et al. (2006). \dQuote{A general, analytic method fo
 }
 
 \keyword{ package }
-\seealso{
-\code{\link[prim:prim-package]{<prim>}}
-\code{\link[rpart:rpart-package]{<rpart>}}
-}
+
 \examples{
 
 \dontrun{

@@ -22,6 +22,14 @@ function(x, y=NULL, thresh=NULL, peel.alpha=0.1, paste.alpha=0.05,
 #nbump:  given that repro==TRUE, how many resamplings should be used?
 #dfrac:  given that repro==TRUE, what fraction of the data should be resampled each time?
          
+####GPL-3 notes:
+
+cat("Welcome to the Scenario Discovery toolkit","\n","\n")
+
+cat("Copyright (C) 2009  Evolving Logic","\n")
+nicecat("This program comes with ABSOLUTELY NO WARRANTY; for details type 'sdwarranty()' when you are back at the R command prompt.  This is free software, and you are welcome to redistribute it under certain conditions; when you are not in this dialogue, type 'RShowDoc('COPYING')' for the complete GNU General Public License, which states these conditions.")
+
+cat("\n")
   
 #arguments which get passed on, but which should really just be removed, at least for now:
 showbounds <- TRUE

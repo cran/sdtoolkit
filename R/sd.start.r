@@ -7,6 +7,11 @@ sd.start <- function(...){
 
 cat("\n","\n")
 cat("Welcome to the Scenario Discovery toolkit","\n","\n")
+
+cat("Copyright (C) 2009  Evolving Logic","\n")
+nicecat("This program comes with ABSOLUTELY NO WARRANTY; for details type 'sdwarranty()' when you are back at the R command prompt.  This is free software, and you are welcome to redistribute it under certain conditions; when you are not in this dialogue, type 'RShowDoc('COPYING')' for the complete GNU General Public License, which states these conditions.")
+
+cat("\n")
 cat("Note, unless you are asked specifically, you do not need to include quotes","\n", 
 "around your responses to dialogues, including filenames and directories.", "\n", 
 "(Nor do you need them when the dialogue uses single quotes to tell you possible
@@ -15,12 +20,6 @@ cat("Note, unless you are asked specifically, you do not need to include quotes"
 "backslashes, and all dialogues require you to press ENTER to end the dialogue.","\n")
 cat("\n","\n")
 
-###Planned piece of dialogue, commented out for now, since we don't have mySQL
-
-#cat("Would you like to read data stored in a:","\n")
-#cat("1) .csv file","\n")
-#cat("2) mySQL database (enter \"2\")","\n") 
-#ftype <- readline("(enter \"1\" or "\2\")")
 
 #Current dialogue:
 cat("====== SETTING THE WORKING DIRECTORY ======","\n")
@@ -127,7 +126,7 @@ if(filename!="doh"){
       }
         
       if(ok=='y'){
-        cat("Rock.  Let's move on.","\n")  
+        cat("Great.  Let's move on.","\n")  
         satisfied <- TRUE
       }
     }

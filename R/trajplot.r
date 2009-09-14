@@ -40,11 +40,11 @@ windows(width=7)
 #Basic plots for either coverage or support:
 if(coverage==TRUE){
   xax <- infolist$marcoverage
-  plot(xax,infolist$y.mean, xlab="Coverage",ylab="Box mean", main="Peeling trajectory",col=pcvect,pch=19)
+  plot(xax,infolist$y.mean, xlab="Coverage",ylab="Density", main="Peeling trajectory",col=pcvect,pch=19)
 }
 else if(coverage==FALSE){
   xax <- infolist$mass
-  plot(xax,infolist$y.mean, xlab="Support",ylab="Box mean", main="Peeling trajectory",col=pcvect)
+  plot(xax,infolist$y.mean, xlab="Support",ylab="Density", main="Peeling trajectory",col=pcvect)
 }
 else (stop("coverage argument must be TRUE or FALSE"))
 
@@ -61,14 +61,16 @@ if(coverage){
   wht2plot <- readline(cat("Would you like to plot dimension contours, new dominating points,","\n",
     "or just continue on and pick boxes to inspect?","\n",
     "Enter 'dims','dom', or 'n')","\n"))
-    
+  
   if(wht2plot=="dims"){
   
     allpts <- matrix(ncol=4, nrow=0)
   
     for (i in 1:length(contours)){
   
-      points(contours[[i]],type="b",col=colvect[(i%%lcolvect)],pch=3, cex=.5)
+      colind <- (i%%lcolvect)*(i!=lcolvect)+lcolvect*(i==lcolvect)
+      
+      points(contours[[i]],type="b",col=colvect[colind],pch=3, cex=.5)
       
       allpts <- rbind(allpts,cbind(contours[[i]],i-1,c(1:ltraj)))
       #we're cbinding the stats, plus the dimensionality + original box number
@@ -145,8 +147,8 @@ if(wht2plot=="dom"){
 
 } else if(wht2plot=="dims"){
   
-  labely <- rep(c(1:ltraj),length(contours))
   idmat <- rbind(cbind(xax, infolist$y.mean),allpts[,1:2])
+  labely <- rep(c(1:ltraj),length(idmat))
   idpts <- identify(idmat,labels=labely)
   idpts <- unique(labely[idpts])
 } else{
