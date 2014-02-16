@@ -6,8 +6,9 @@
 #plotting "dominating" points that extent the tradeoff frontier, and plotting 
 #contour lines of constant dimensionality.  
 
-`trajplot` <-
-function(infolist, coverage=TRUE, margtrajs, colvect=c("red", "blue", "purple", "brown", "forest green")){
+`trajplot` <-	function(infolist, coverage=TRUE, margtrajs, 
+								colvect=c("red", "blue", "purple", "brown", "forest green"),
+								trajplot_xlim, trajplot_ylim){
 
 #infolist is object like that output from traj.info  - multiple lists, each of length trajectory  
 #coverage indicates whether to plot coverage or support on x-axis
@@ -30,23 +31,24 @@ lcolvect <- length(colvect)
 #tdims: how many dimensions are restricted for that box:
 #pcvect: which color to use, as a function of restricted dimensions
 for (i in 1:length(infolist$dimlist)){
-  tdims[i] <- sum(infolist$dimlist[[i]]$either)
-  pcvect[i] <- colvect[tdims[i]%%lcolvect+1]
+  tdims[i] <- sum(infolist$dimlist[[i]]$either) #total number of dimensions rstr
+  pcvect[i] <- colvect[tdims[i]%%lcolvect+1]    #color associated with that num
 }
 
-windows(width=7)
-
+options("device")$device(width=7)
 
 #Basic plots for either coverage or support:
 if(coverage==TRUE){
   xax <- infolist$marcoverage
-  plot(xax,infolist$y.mean, xlab="Coverage",ylab="Density", main="Peeling trajectory",col=pcvect,pch=19)
-}
-else if(coverage==FALSE){
+  plot(xax,infolist$y.mean, 
+			xlab="Coverage", ylab="Density", 
+			xlim=trajplot_xlim, ylim=trajplot_ylim,
+			main="Peeling trajectory",
+			col=pcvect, pch=19)
+} else if(coverage==FALSE){
   xax <- infolist$mass
   plot(xax,infolist$y.mean, xlab="Support",ylab="Density", main="Peeling trajectory",col=pcvect)
-}
-else (stop("coverage argument must be TRUE or FALSE"))
+} else (stop("coverage argument must be TRUE or FALSE"))
 
 #This section should plot dimension contours
  bringToTop(-1)
@@ -56,7 +58,8 @@ else (stop("coverage argument must be TRUE or FALSE"))
 #so we limit the option:
 if(coverage){ 
 
- contours <- contourmkr(margtrajs) #contourmkr
+	contours <- contourmkr(margtrajs) #contourmkr
+	points(x=contours[[1]][1,1], y=contours[[1]][1,2], pch=15, cex=1, col="black")
 
   wht2plot <- readline(cat("Would you like to plot dimension contours, new dominating points,","\n",
     "or just continue on and pick boxes to inspect?","\n",

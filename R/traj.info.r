@@ -18,9 +18,11 @@ function(x, y, box.seq, npts=NA,ninter=NA)
     x.ind.curr <- x.ind
     box.curr <- box.seq$box[[k]]
 
-    for (j in 1:d)
+		#browser()
+    for (j in 1:d){
       x.ind.curr <- x.ind.curr & (x[,j]>= box.curr[1,j]) & (x[,j] <= box.curr[2,j])
-
+		}
+		
     x.curr <- x[x.ind.curr & x.ind,]
     box.mass.curr <- sum(x.ind.curr)/n
 

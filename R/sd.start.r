@@ -503,7 +503,7 @@ oldpar <- par(no.readonly = TRUE)
 graphics.off()
 for (i in 1:length(outputvars)){
   xname = colnames(mydata)[outputvars[i]]
-  windows(width=14)
+  options("device")$device(width=14)
   par(mfcol=c(1,2))
   hist(mydata[,outputvars[i]],xlab=xname,main = paste("Histogram of",xname),breaks=10)
   plot.ecdf(mydata[,outputvars[i]],xlab=xname, main = paste("Empirical CDF of",xname), ylab=paste("Fn(",xname,")",sep=""), verticals=TRUE)

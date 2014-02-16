@@ -44,9 +44,3 @@ boxconverter <- function(sdbox){
   return(newbox)
   
 }
-
-  
-    
-    
-  
-  

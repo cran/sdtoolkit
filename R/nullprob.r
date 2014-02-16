@@ -10,8 +10,8 @@
 
 nullprob <- function(dset, y=NULL, lbox){
   
-  if(is.null(y)){
-    y <- dset[,ncol(dset)]
+  if(is.null(y)){   #If given null value for y, assume it is the last column of 
+    y <- dset[,ncol(dset)] #the dataset.
   }
   
   if (length(lbox[[1]])>1){
@@ -46,13 +46,20 @@ nullprob <- function(dset, y=NULL, lbox){
    
 #Test direct framing: (should come up with same results, except also work for intot=1) 
 
-    for (j in nbig:intot){
-    
-      ptot <- ptot + choose(nbig,j) * pbase^j * (1-pbase)^(nbig-j)
-      
-    }
-   
-    pvals[i] <- ptot
+#Ok... this can just be calculated directly (and with better numerical 
+#precision) using Rbeta, which uses pbeta -- 
+#regularized incomplete beta function, which, with right parameters, functions
+#as the upper cdf of the binomial dist.
+
+#    for (j in nbig:intot){
+#    
+#      ptot <- ptot + choose(nbig,j) * pbase^j * (1-pbase)^(nchoosebig-j)
+#      
+#    }
+#   
+#    pvals[i] <- ptot
+  #Rbeta(pbase,intot,nbig-intot+1)
+   pvals[i] <- pbinom(intot-1, nbig, pbase, lower.tail=FALSE)
    
   }
   

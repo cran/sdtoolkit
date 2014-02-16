@@ -19,7 +19,10 @@ sdprim(x, y = NULL,
     repro = TRUE, 
     nbump = 10, 
     dfrac = 0.5, 
-    threshtype = ">")
+    threshtype = ">",
+    trajplot_xlim = c(0,1),
+    trajplot_ylim = c(0,1),
+    peel_crit = 1)
 }
 
 \arguments{
@@ -38,6 +41,9 @@ sdprim(x, y = NULL,
   \item{nbump}{Integer - If \code{repro = TRUE}, how many resamplings should be performed?  Currently this only allows sampling without replacement.}
   \item{dfrac}{Numeric between 0 and 1.  If \code{repro = TRUE}, what fraction of the dataset should be resampled each time?}
   \item{threshtype}{Required only if the output data is not already in a zero-one formate.  A relational operator entered as a character (either \dQuote{<},\dQuote{>},\dQuote{<=} or \dQuote{>=}, describing how to values in \code{y} should be thresholded.  The threshold is treated as being on the right side of the operator, thus, for example, \dQuote{<} would make all values in \code{y} that are less than than \code{thresh} ones, and all values greater into zeros.}  
+  \item{trajplot_xlim}{x-limits on the peeling trajectory plot. Must be either a vector that can be passed as xlim argument to plot function, or NULL to make x limits narrowly around the data.}
+  \item{trajplot_ylim}{y-limits on the peeling trajectory plot. Must be either a vector that can be passed as ylim argument to plot function, or NULL to make y limits narrowly around the data.}
+  \item{peel_crit}{Either 1, 2, or 3, 1 is default -- choose peels based on maximizing density in remaining box. 2 is normalize improvement by peeled box support, 3 is minimize mean in peeled box. See F&F 1999 Sec 14.1.}
 }
 
 \details{

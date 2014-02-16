@@ -1,8 +1,10 @@
 `find.traj` <-
 function(x, y, box, peel.alpha, paste.alpha, mass.min, threshold,
-                     d, n, pasting, verbose=FALSE, paste.all=FALSE)
+                     d, n, pasting, verbose=FALSE, paste.all=FALSE,
+										 peel_crit)
 {
-  mass.min <- ceiling(1/peel.alpha)/nrow(x)
+ # mass.min <- ceiling(1/peel.alpha)/nrow(x)  #commented out 2009-10-25
+                                              #suspect it is incorrect
 
   peel.traj <- list()
 
@@ -11,7 +13,8 @@ function(x, y, box, peel.alpha, paste.alpha, mass.min, threshold,
 
   if ((y.mean >= threshold) & (mass >= mass.min))
     boxk.peel <- peel.one(x=x, y=y, box=box, peel.alpha=peel.alpha,
-                          mass.min=mass.min,threshold=threshold, d=d, n=n)
+                          mass.min=mass.min,threshold=threshold, d=d, n=n,
+													peel_crit=peel_crit)
   else
     boxk.peel <- NULL
 
@@ -19,37 +22,36 @@ function(x, y, box, peel.alpha, paste.alpha, mass.min, threshold,
 
   bi <- 0
 
-  while (!is.null(boxk.peel))
-  {
+  while (!is.null(boxk.peel)){
     bi <- bi+1
     boxk.temp <- boxk.peel
 
-    peel.traj[[bi]] <- boxk.temp  #$box
-
+    peel.traj[[bi]] <- boxk.temp #$box
+		#print("calling peel.one")
+		flush.console()
     boxk.peel <- peel.one(x=boxk.temp$x, y=boxk.temp$y, box=boxk.temp$box,
                           peel.alpha=peel.alpha,
-                          mass.min=mass.min, threshold=threshold, d=d, n=n)
+                          mass.min=mass.min, threshold=threshold, d=d, n=n,
+													peel_crit=peel_crit)
+    #cat("mean:",boxk.peel$y.mean, "mass",boxk.peel$mass,"\n") #diagnostic
+	
+	}
 
-  }
+  if (verbose){
+		cat("Peeling completed \n")
+	}
 
-  if (verbose)
-    cat("Peeling completed \n")
-
-
-  if (!pasting){paste.traj <- peel.traj
-  } else
-  {
+  if (!pasting){
+		paste.traj <- lapply(peel.traj, "[[", "box")
+	} else {
 
     paste.traj <- list()
 
 #    boxk.paste <- boxk.temp
 
-
-
     for (p in 1:length(peel.traj)){
   
       boxk.paste <- peel.traj[[p]]
-  
   
       while (!is.null(boxk.paste))
       {
@@ -58,15 +60,18 @@ function(x, y, box, peel.alpha, paste.alpha, mass.min, threshold,
                                 x.init=x, y.init=y, paste.alpha=paste.alpha,
                                 mass.min=mass.min, threshold=threshold, d=d, n=n)
       }
-      if (verbose)
-        cat("Pasting completed\n")
-    
+			
+      if (verbose) {
+				cat("Pasting completed\n")
+			}
+		
       paste.traj[[p]] <- boxk.temp$box
   
     }
 
   }
 
+	#browser()
   boxk <- boxk.temp
 
 #Lines added by BB to accomodate peeling trajectory

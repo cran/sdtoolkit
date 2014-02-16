@@ -15,11 +15,11 @@ function(checpts, x, y,infolist,npts,ninter){
   margsum <- sum(y)
   
   eibbox <- list(length=length(checpts)) #Extra Info By Box 
-  
+  #print(cat(checpts,"bah"))
+  #flush.console()
   for(h in 1:length(checpts)){
   
-  
-  ### CODE REMNANT 1 WAS HERE, MOVED TO END OF FILE JUST IN CASE
+    ### CODE REMNANT 1 WAS HERE, MOVED TO END OF FILE JUST IN CASE
 
 
     box.curr <- infolist$box[[checpts[h]]]   #get current box definition
@@ -28,7 +28,7 @@ function(checpts, x, y,infolist,npts,ninter){
     currentdimthing <- rdims
 
     ### CODE REMNANT 2 WAS HERE
-  
+
     stats=matrix(nrow=length(rdims), ncol=4)
 
     ranki <- 0
@@ -85,6 +85,7 @@ function(checpts, x, y,infolist,npts,ninter){
       
     }
     
+    #cat(dim(stats),ranki)  #Added 2009-10-25 as diagnostic
     stats <- matrix(stats[(ranki+1):1,],ncol=4)
     
     gmean  <- margsum/n

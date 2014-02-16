@@ -1,8 +1,15 @@
+
+#This version corrects the argument passing problems used by in which 
+#reproducibility statistics arguments were not making it into prim.traj
+
 sdprim <-
 function(x, y=NULL, thresh=NULL, peel.alpha=0.1, paste.alpha=0.05,
                  mass.min=0.001, pasting=TRUE, box.init=NULL,
                  coverage=TRUE, outfile="boxsum.txt", csvfile="primboxes.csv",
-                 repro=TRUE,nbump=10,dfrac=.5, threshtype=">"){
+                 repro=TRUE,nbump=10,dfrac=.5, threshtype=">",
+								 trajplot_xlim=c(0,1), trajplot_ylim=c(0,1),
+								 peel_crit=1){
+							
                  
 #Arguments:
 #x: input data
@@ -21,7 +28,16 @@ function(x, y=NULL, thresh=NULL, peel.alpha=0.1, paste.alpha=0.05,
 #repro: logical, whether or not to produce reproducibility statistics (which are achieved by rerunning PRIM on resamplings of the dataset
 #nbump:  given that repro==TRUE, how many resamplings should be used?
 #dfrac:  given that repro==TRUE, what fraction of the data should be resampled each time?
-         
+#trajplot_[x/y]lim: each must be either a vector that can be passed as 
+#              xlim/ylim arguments to plot, or NULL, which uses the 'old' version of 
+#              plotting dim plots that doesn't necessarily include the full 
+#  							boundaries of zero to 1 in each direction -- fills out the plot
+#              	more but is slightly visually deceptive.
+#peel_crit: peeling criteria to use -- 1 or 2.  1 is the default, 2 is the 
+							  #alternate in eq 14.5 in Friedman and Fisher 1999, which 
+								#a larger density increase if a larger box is removed
+								#3 is minimizing mean of peeled box (eq 14.6).
+				 
 ####GPL-3 notes:
 
 cat("Welcome to the Scenario Discovery toolkit","\n","\n")
@@ -38,9 +54,8 @@ paste.all <- TRUE
 threshold.type <- 1
 verbose <- FALSE
 threshold <- 0
-  
-##VARIOUS CHECKS:
 
+##VARIOUS CHECKS:
 
   sdprimcall <- match.call()
   if(is.null(sdprimcall$y)){ #then y not specified, and remove the last column of x
@@ -66,24 +81,76 @@ threshold <- 0
 
   #check there are nonzero y's
   if(isTRUE(all.equal(y,rep(0,npts)))){stop("Need at least some nonzero values in output vector y.")}
-    
+		
+	trajplot_xlimbad <- FALSE
+	trajplot_ylimbad <- FALSE
+# check format of trajplot_[x/y]lim and adjust if necessary:
+	if(!is.null(trajplot_xlim)){
+		if(is.numeric(trajplot_xlim)){
+			if(length(trajplot_xlim)!=2){
+				trajplot_xlimbad <- TRUE
+			}
+		}
+	}
+	# check format of trajplot_[x/y]lim and adjust if necessary:
+	if(!is.null(trajplot_ylim)){
+		if(is.numeric(trajplot_ylim)){
+			if(length(trajplot_ylim)!=2){
+				trajplot_ylimbad <- TRUE
+			}
+		}
+	}
+		
+	if(trajplot_xlimbad){
+		stop("trajplot_xlim has unacceptable argument: must be NULL or numeric vector
+		     of length 2.")
+	}
+	
+	if(trajplot_ylimbad){
+		stop("trajplot_ylim has unacceptable argument: must be NULL or numeric vector
+		     of length 2.")
+	}
+	
+	xtemp <- x
+	ytemp <- y
+	d <- ncol(x)
+	
+	ranges	<- apply(xtemp,2,range)
+	spans 	<- ranges[2,]-ranges[1,]
+	
+	## Onto actually doing stuff:
   keepgoing <- TRUE
 
-  xtemp <- x
-  ytemp <- y
-  d <- ncol(x)
-  
-  ranges <- apply(x,2,range)
-  spans <- ranges[2,]-ranges[1,]
-  
   boxseq <- list()
   i = 0
 
   while (keepgoing){
 
-    i <- i + 1
-
-    tempbox <- prim.traj(xtemp, ytemp, box.init=box.init, peel.alpha=peel.alpha, paste.alpha=paste.alpha, mass.min=mass.min, threshold=threshold, pasting=pasting, verbose=verbose, threshold.type=threshold.type, paste.all=paste.all,coverage=coverage,showbounds=showbounds,style=style,npts=npts,ninter=ninter)
+    i <- i + 1	
+  
+#		#Drop dimensions with no variation:
+	
+#		ranges	<- apply(xtemp,2,range)
+#		spans 	<- ranges[2,]-ranges[1,]
+  
+#		zero_spans <- which(spans==0)
+#		if(length(zero_spans)>0){
+#			cat("Found one or more columns with no variation, which will be dropped. They are: \n")
+#			cat(colnames(xtemp)[zero_spans],"\n")
+#			flush.console()
+#			xtemp 			<- xtemp[,-zero_spans]
+#			ranges  <- ranges[,-zero_spans]
+#			spans   <- spans[-zero_spans]
+#		}
+		
+		#Actually call peeling operations:
+    tempbox <- prim.traj(xtemp, ytemp, box.init=box.init, peel.alpha=peel.alpha, 
+      paste.alpha=paste.alpha, mass.min=mass.min, threshold=threshold, 
+      pasting=pasting, verbose=verbose, threshold.type=threshold.type, 
+      paste.all=paste.all,coverage=coverage,showbounds=showbounds,style=style,
+      npts=npts,ninter=ninter, repro=repro, nbump=nbump, dfrac=dfrac,
+			trajplot_xlim=trajplot_xlim, trajplot_ylim=trajplot_ylim,
+			peel_crit=peel_crit)
 
     if(tempbox[1]!="done"){ #prim.traj will prompt to stop covering
     
@@ -97,13 +164,11 @@ threshold <- 0
     
       boxseq[[i]] <- tempbox
 
-      #cover
-  
-      brind <- in.box(x=xtemp, box=tempbox$box,ncol(x),boolean=TRUE)
-  
-      xtemp <- xtemp[!brind,]
+      #covering: brind identifies the points in the box, which are then removed
+      #brind <- in.box(x=xtemp, box=tempbox$box, ncol(x), boolean=TRUE)
+      brind <- in.box(x=xtemp, box=tempbox$box, ncol(xtemp), boolean=TRUE)
+			xtemp <- xtemp[!brind,]
       ytemp <- ytemp[!brind]
-  
       
       if(isTRUE(all.equal(ytemp,rep(0,length(ytemp))))){
      
@@ -133,8 +198,6 @@ threshold <- 0
     else {keepgoing <- FALSE}
 
   }
-
-
 
   olm <- olaps(x,y,boxseq)
 

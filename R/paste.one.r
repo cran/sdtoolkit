@@ -21,12 +21,11 @@ function(x, y, x.init, y.init, box, paste.alpha,
 
   box.paste1 <- box
   box.paste2 <- box
-   
-  for (j in 1:d)
-  {    
+  
+  for (j in 1:d){   
     ## candidates for pasting
     box.diff <- (box.init[2,] - box.init[1,])[j]
-
+		
     box.paste1[1,j] <- box[1,j] - box.diff*paste.alpha
     box.paste2[2,j] <- box[2,j] + box.diff*paste.alpha
     
@@ -37,23 +36,26 @@ function(x, y, x.init, y.init, box, paste.alpha,
     x.paste2.ind <- in.box(x=x.init, box=box.paste2, d=d, boolean=TRUE)
     x.paste2 <- x.init[x.paste2.ind,]
     y.paste2 <- y.init[x.paste2.ind]
-      
-    while (length(y.paste1) <= length(y) & box.paste1[1,j] >= box.init[1,j])
-    {
-      box.paste1[1,j] <- box.paste1[1,j] - box.diff*paste.alpha
-      x.paste1.ind <- in.box(x=x.init, box=box.paste1, d=d, boolean=TRUE)
-      x.paste1 <- x.init[x.paste1.ind,]
-      y.paste1 <- y.init[x.paste1.ind]
-    }
     
-    while (length(y.paste2) <= length(y) & box.paste2[2,j] <= box.init[2,j])
-    {
-      box.paste2[2,j] <- box.paste2[2,j] + box.diff*paste.alpha
-      x.paste2.ind <- in.box(x=x.init, box=box.paste2, d=d, boolean=TRUE)
-      x.paste2 <- x.init[x.paste2.ind,]
-      y.paste2 <- y.init[x.paste2.ind]
-    }
-
+		if(box.diff > 0){
+#		if(TRUE){
+			while (length(y.paste1) <= length(y) & box.paste1[1,j] >= box.init[1,j])
+			{
+				box.paste1[1,j] <- box.paste1[1,j] - box.diff*paste.alpha
+				x.paste1.ind <- in.box(x=x.init, box=box.paste1, d=d, boolean=TRUE)
+				x.paste1 <- x.init[x.paste1.ind,]
+				y.paste1 <- y.init[x.paste1.ind]
+				#print(c(length(y.paste1), length(y), box.paste[1,j], box.init[1,j]))
+			}
+			
+			while (length(y.paste2) <= length(y) & box.paste2[2,j] <= box.init[2,j])
+			{
+				box.paste2[2,j] <- box.paste2[2,j] + box.diff*paste.alpha
+				x.paste2.ind <- in.box(x=x.init, box=box.paste2, d=d, boolean=TRUE)
+				x.paste2 <- x.init[x.paste2.ind,]
+				y.paste2 <- y.init[x.paste2.ind]
+			}
+		}
    
     ## y means of pasted boxes
     y.mean.paste[1,j] <- mean(y.paste1)
@@ -75,31 +77,25 @@ function(x, y, x.init, y.init, box, paste.alpha,
   
   y.mean.paste.max <- which(y.mean.paste==max(y.mean.paste, na.rm=TRUE), arr.ind=TRUE)
   
-  if (nrow(y.mean.paste.max)>1)
-  {
+  if (nrow(y.mean.paste.max)>1) {
      y.mean.paste.max <- cbind(y.mean.paste.max, mass.paste[y.mean.paste.max])
      y.mean.paste.max.ind <- y.mean.paste.max[order(y.mean.paste.max[,3], decreasing=TRUE),][1,1:2]
-  }
-  else
+  } else {
     y.mean.paste.max.ind <- as.vector(y.mean.paste.max)       
-  
+  }
   ## paste along dimension j.max
   j.max <- y.mean.paste.max.ind[2]
-
+	
   ## paste lower 
-  if (y.mean.paste.max.ind[1]==1)
-  {
+  if (y.mean.paste.max.ind[1]==1){
      x.new <- x.paste1.list[[j.max]] 
      y.new <- y.paste1.list[[j.max]]
      box.new[1,j.max] <- box.paste[1,j.max]
-  }   
-  ## paste upper
-  else if (y.mean.paste.max.ind[1]==2)
-  {
+  }  else if (y.mean.paste.max.ind[1]==2){ ## paste upper
      x.new <- x.paste2.list[[j.max]] 
      y.new <- y.paste2.list[[j.max]]
      box.new[2,j.max] <- box.paste[2,j.max]
-  }
+  } 
   
   mass.new <- length(y.new)/n
   y.mean.new <- mean(y.new)

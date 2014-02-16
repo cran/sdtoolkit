@@ -30,9 +30,11 @@
 %\alias{prim.one}
 \alias{prim.traj}
 \alias{boxprint}
+\alias{prim.trajauto}
 \alias{pvallister}
 \alias{ranker}
 \alias{resampstats}
+\alias{sdprimauto}
 \alias{sdwarranty}
 \alias{traj.info}
 \alias{traj.stats}
@@ -84,10 +86,12 @@ The functions are briefly discussed below, along with attributions to code from 
 %\item{prim.hdr}
 %\item{prim.one}
 \item{prim.traj}{Second-most high function that is responsible selection of individual boxes.  The function \code{sdprim} is essentially a wrapper for this.  Based off of Duong's \code{prim.one}.}
+\item{prim.trajauto}{A test implementation to use objective function values based on coverage, density and dimensionality. INCOMPLETE AND UNTESTED.}
 \item{boxprint}{Prints boxes in an easy to read way, along with some of their statistics.}
 \item{pvallister}{A wrapper of \code{nullprob}, calculates the quasi-p-values displayed along with dimension restrictions.}
 \item{ranker}{Ranks the dimension restrictions according to their importance in raising the density of the box.}
 \item{resampstats}{Resamples the original dataset multiple times to get an estimate of the variance of the statistics.}
+\item{sdprimauto}{An sdprim version designed to wrap around prim.trajauto for automatic box selection. INCOMPLETE AND UNTESTED.}
 \item{traj.info}{Get information on boxes in the trajectory.}
 \item{traj.stats}{Formulate the trajectory statistics.}
 \item{trajplot}{Plots a box trajectory, possibly with dimensions contours and dominated points.}

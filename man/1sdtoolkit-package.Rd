@@ -11,8 +11,8 @@ This package is designed to provide a means for easily integrating multiple algo
 \tabular{ll}{
 Package: \tab sdtoolkit\cr
 Type: \tab Package\cr
-Version: \tab 2.31\cr
-Date: \tab 2009-09-14\cr
+Version: \tab 2.32-3\cr
+Date: \tab 2011-10-10\cr
 License: \tab GPL3\cr
 Code Copyright: \tab Evolving Logic, Inc.\cr
 Documentation Copyright: \tab The RAND Corporation\cr
@@ -35,15 +35,15 @@ The funding for the development of this package came from Evolving Logic, RAND, 
 }
 
 \references{
-Bryant, B.P. and R.J. Lempert.  (2009).  \dQuote{Thinking Inside the Box: A Participatory, Computer-Assisted Approach to Scenario Discovery}. Technological Forecasting and Social Change (forthcoming).
+Bryant, B.P. and R.J. Lempert.  (2010).  \dQuote{Thinking Inside the Box: A Participatory, Computer-Assisted Approach to Scenario Discovery}. \emph{Technological Forecasting and Social Change} 77: 34-49
 
-Lempert, R.J., B.P. Bryant and S.C. Bankes. (2008). \dQuote{Comparing Algorithms for Scenario Discovery.} \emph{RAND Working Paper Series}.  http://www.rand.org/pub/working\_papers/2008/RAND\_WR557.pdf
+Lempert, R.J., B.P. Bryant and S.C. Bankes. (2008). \dQuote{Comparing Algorithms for Scenario Discovery}. \emph{RAND Working Paper Series}.  http://www.rand.org/pub/working\_papers/2008/RAND\_WR557.pdf
 
-Friedman, J.H., N.I. Fisher. (1999). \dQuote{Bump hunting in high-dimensional data.} \emph{Statistics and Computing} 9, 123-143.
+Friedman, J.H., N.I. Fisher. (1999). \dQuote{Bump hunting in high-dimensional data}. \emph{Statistics and Computing} 9, 123-143.
 
 Groves, D.G. and R.J. Lempert.  (2007). \dQuote{A New Analytic Method for Finding Policy-Relevant Scenarios}. \emph{Global Environmental Change}, 17, p73-85. http://www.rand.org/pubs/reprints/RP1244/
 
-Lempert, R.J., D.G. Groves, et al. (2006). \dQuote{A general, analytic method for generating robust strategies and narrative scenarios.} \emph{Management Science} 52(4): 514-528.
+Lempert, R.J., D.G. Groves, et al. (2006). \dQuote{A general, analytic method for generating robust strategies and narrative scenarios}. \emph{Management Science} 52(4): 514-528.
 }
 
 \keyword{ package }

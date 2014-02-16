@@ -168,7 +168,7 @@ if(filterothers==FALSE){
 #      
 #          #PLOT POINTS
 #      
-#          windows()
+#          options("device")$device()
 #          colptplot(cbind(x,y),xdim=d1,ydim=d2,outdim=(ncol(x)+1),lowcol="transparent",hicol="black",xname=d1name,yname=d2name)
 #      
 #      
